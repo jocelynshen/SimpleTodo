@@ -1,5 +1,6 @@
 package com.example.simpletodo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.apache.commons.io.FileUtils;
@@ -19,6 +21,13 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    // a numeric code to identify the edit activity
+    public final static int EDIT_REQUEST_CODE = 20;
+    public final static String ITEM_TEXT = "itemText";
+    public final static String ITEM_POSITION = "itemPosition";
+
+
 
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
@@ -49,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListViewListener(){
         Log.i("MainActivity", "setting up listener");
-        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
+        // set up item listener for edit (long click)
+        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Log.i("MainActivity", "item removed from list");
@@ -60,6 +70,42 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        // set up item listener for edit (regular click)
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // create the new activity
+                Intent i = new Intent(MainActivity.this, EditItemActivity.class);
+                // pass the data being edited
+                i.putExtra(ITEM_TEXT, items.get(position));
+                i.putExtra(ITEM_POSITION, position);
+                // display the activity
+                startActivityForResult(i, 20);
+            }
+        });
+    }
+
+    // handle result from edit activity
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK && requestCode==EDIT_REQUEST_CODE){
+            // extract updated item text from result intent extras
+            String updatedItem = data.getExtras().getString(ITEM_TEXT);
+            // extract original position of edited item
+            int position = data.getExtras().getInt(ITEM_POSITION);
+            // update the model with the new item text at the edited position
+            items.set(position, updatedItem);
+            // notify the adapter that the model changed
+            itemsAdapter.notifyDataSetChanged();
+            // persist the changed model
+            writeItems();
+            // notify the user the operation completed okay
+            Toast.makeText(this, "item updated successfully", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private File getDataFile(){
