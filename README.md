@@ -4,7 +4,7 @@
 
 Submitted by: **Jocelyn**
 
-Time spent: **2** hours spent in total
+Time spent: **2.5** hours spent in total
 
 ## User Stories
 
@@ -28,7 +28,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Spent some time reviewing everything I did, and taking notes so I could fully understand everything. Still a little confused about intents and extras.
 
 ## License
 
