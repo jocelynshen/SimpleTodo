@@ -45,4 +45,9 @@ public class EditItemActivity extends AppCompatActivity {
         finish();
 
     }
+
+    public void onClear(View v){
+        EditText etNewItem = (EditText) findViewById(R.id.editText2);
+        etNewItem.setText("");
+    }
 }

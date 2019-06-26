@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     public final static String ITEM_TEXT = "itemText";
     public final static String ITEM_POSITION = "itemPosition";
 
-
-
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
     ListView lvItems;
