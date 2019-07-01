@@ -34,16 +34,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        readItems();
+        readItems(); // handles saving the items upon closing
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         lvItems = findViewById(R.id.lvitems);
         lvItems.setAdapter(itemsAdapter);
-
         setupListViewListener();
     }
 
     public void onAddItem(View v){
+        /*
+        Adding an item to the list view
+         */
         EditText etNewItem = findViewById(R.id.et);
         String itemText = etNewItem.getText().toString();
         itemsAdapter.add(itemText);
@@ -53,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupListViewListener(){
-        Log.i("MainActivity", "setting up listener");
-
+        /*
+        Setup listener for clicking on item and editing it
+         */
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -66,17 +68,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // set up item listener for edit (regular click)
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // create the new activity
-                Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-                // pass the data being edited
-                i.putExtra(ITEM_TEXT, items.get(position));
+                Intent i = new Intent(MainActivity.this, EditItemActivity.class); // create the new activity
+                i.putExtra(ITEM_TEXT, items.get(position)); // pass the data being edited
                 i.putExtra(ITEM_POSITION, position);
-                // display the activity
-                startActivityForResult(i, 20);
+                startActivityForResult(i, 20); // display the activity
             }
         });
     }
@@ -85,18 +83,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==RESULT_OK && requestCode==EDIT_REQUEST_CODE){
-            // extract updated item text from result intent extras
-            String updatedItem = data.getExtras().getString(ITEM_TEXT);
-            // extract original position of edited item
-            int position = data.getExtras().getInt(ITEM_POSITION);
-            // update the model with the new item text at the edited position
-            items.set(position, updatedItem);
-            // notify the adapter that the model changed
-            itemsAdapter.notifyDataSetChanged();
-            // persist the changed model
-            writeItems();
-            // notify the user the operation completed okay
-            Toast.makeText(this, "item updated successfully", Toast.LENGTH_SHORT).show();
+            String updatedItem = data.getExtras().getString(ITEM_TEXT); // extract updated item text from result intent extras
+            int position = data.getExtras().getInt(ITEM_POSITION); // extract original position of edited item
+            items.set(position, updatedItem); // update the model with the new item text at the edited position
+            itemsAdapter.notifyDataSetChanged(); // notify the adapter that the model changed
+            writeItems(); // persist the changed model
+            Toast.makeText(this, "item updated successfully", Toast.LENGTH_SHORT).show(); // notify the user the operation completed okay
         }
     }
 

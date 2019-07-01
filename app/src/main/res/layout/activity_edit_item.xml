@@ -7,7 +7,7 @@
     tools:context=".EditItemActivity">
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -33,7 +33,7 @@
         android:onClick="onSaveItem"
         android:text="SAVE"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/editItem" />
 
     <Button
         android:id="@+id/clear"
@@ -45,5 +45,5 @@
         android:text="CLEAR"
         android:onClick="onClear"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/editItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>
