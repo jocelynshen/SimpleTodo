@@ -12,7 +12,6 @@ import static com.example.simpletodo.MainActivity.ITEM_TEXT;
 
 public class EditItemActivity extends AppCompatActivity {
 
-    // track edit text
     EditText etItemText;
     // position of edited item in list
     int position;
@@ -21,17 +20,12 @@ public class EditItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
-        // resolve edit text from layout
-        etItemText = (EditText) findViewById(R.id.editText2);
-        // set edit text from intent extra
+        etItemText = findViewById(R.id.editText2);
         etItemText.setText(getIntent().getStringExtra(ITEM_TEXT));
-        // update position from intent extra
         position = getIntent().getIntExtra(ITEM_POSITION,0);
-        // update title bar of the activity
         getSupportActionBar().setTitle("Edit Item");
     }
 
-    // handler for save button
     public void onSaveItem(View v){
         // prepare new intent for result
         Intent i = new Intent();
@@ -43,11 +37,10 @@ public class EditItemActivity extends AppCompatActivity {
         setResult(RESULT_OK, i);
         // close the activity and reflect to main
         finish();
-
     }
 
     public void onClear(View v){
-        EditText etNewItem = (EditText) findViewById(R.id.editText2);
+        EditText etNewItem = findViewById(R.id.editText2);
         etNewItem.setText("");
     }
 }

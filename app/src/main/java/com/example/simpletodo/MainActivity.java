@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    // a numeric code to identify the edit activity
     public final static int EDIT_REQUEST_CODE = 20;
     public final static String ITEM_TEXT = "itemText";
     public final static String ITEM_POSITION = "itemPosition";
@@ -38,15 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
         readItems();
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems = (ListView) findViewById(R.id.lvitems);
+        lvItems = findViewById(R.id.lvitems);
         lvItems.setAdapter(itemsAdapter);
 
         setupListViewListener();
-
     }
 
     public void onAddItem(View v){
-        EditText etNewItem = (EditText) findViewById(R.id.et);
+        EditText etNewItem = findViewById(R.id.et);
         String itemText = etNewItem.getText().toString();
         itemsAdapter.add(itemText);
         etNewItem.setText("");
@@ -57,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private void setupListViewListener(){
         Log.i("MainActivity", "setting up listener");
 
-        // set up item listener for edit (long click)
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -83,9 +80,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    // handle result from edit activity
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
